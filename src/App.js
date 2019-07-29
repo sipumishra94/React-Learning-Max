@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-  import './App.css';
-  import Persion from './Persion/Persion';
+import './App.css';
+import Persion from './Persion/Persion';
 
 class App extends Component {
   state = {
@@ -13,18 +13,7 @@ class App extends Component {
     showPersons: false
   };
 
-  switchNameHandler = (newName) => {
-    this.setState({
-      //this.state.Per[0].name = "Max millian";
-      Persions: [
-        { name: newName, age: "28" },
-        { name: "Manu", age: "29" },
-        { name: "Gobind", age: "26" }
-      ]
-    });
-  };
-
-  nameChangeHandler = (event) =>{
+   nameChangeHandler = (event) =>{
     this.setState({
       //this.state.Per[0].name = "Max millian";
       Persions: [
@@ -33,6 +22,11 @@ class App extends Component {
         { name: "Gobind", age: "27" }
       ]
     });
+  }
+  deletePersionHandler = (personIndex)=>{
+    const persons = this.state.Persions;
+    persons.splice(personIndex,1);
+    this.setState({persons: persons});
   }
 
   togglePersonHandler = () =>{
@@ -54,10 +48,13 @@ class App extends Component {
  if (this.state.showPersons){
    persons = (   
      <div>
-       {this.state.persons.map(person => {
-         return <Person name = {person.name} age = {person.age}></Person>
+       {this.state.Persions.map((person,index) => {
+         return <Persion 
+         click = {() =>this.deletePersionHandler(index)}
+         name = {person.name} 
+         age = {person.age}>
+         </Persion>
        })}
-       />
      </div>
    );
  }
