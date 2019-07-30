@@ -5,28 +5,39 @@ import Persion from './Persion/Persion';
 class App extends Component {
   state = {
     Persions: [
-      { name: "max", age: "28" },
-      { name: "manu", age: "29" },
-      { name: "Gobind", age: "30" }
+      {id: "abc", name: "max", age: "28" },
+      {id: "abcd", name: "manu", age: "29" },
+      {id: "abcde", name: "Gobind", age: "30" }
     ],
     otherState: "Some other value",
     showPersons: false
   };
 
-   nameChangeHandler = (event) =>{
-    this.setState({
-      //this.state.Per[0].name = "Max millian";
-      Persions: [
-        { name: event.target.value, age: "28" },
-        { name: "manu", age: "29" },
-        { name: "Gobind", age: "27" }
-      ]
-    });
-  }
+   nameChangeHandler = ((event, id) =>{
+     debugger;
+     console.log("NameHandler "+this.state.Persions)
+    const personIndex = this.state.Persions.findIndex( p =>{
+      return p.id === id;
+    }
+    )
+
+    const person = {...this.state.Persions[personIndex]};
+    person.name = event.target.value;
+    const persons = {...this.state.Persions};
+    persons[personIndex] = person;
+   
+
+    this.setState(() => ({
+      Persions: persons
+    }));
+    console.log("NameHandler "+this.state.Persions)  
+  })
   deletePersionHandler = (personIndex)=>{
-    const persons = this.state.Persions;
+    //const persons = this.state.Persions.splice();
+    //const persons = this.state.Persions;
+    const persons = [...this.state.Persions];
     persons.splice(personIndex,1);
-    this.setState({persons: persons});
+    this.setState(() => ({ Persions: persons }));
   }
 
   togglePersonHandler = () =>{
@@ -46,14 +57,20 @@ class App extends Component {
 
  let persons = null;
  if (this.state.showPersons){
-   persons = (   
+   debugger
+  console.log("NameHandler "+this.state.Persions)
+   persons = (
      <div>
-       {this.state.Persions.map((person,index) => {
-         return <Persion 
-         click = {() =>this.deletePersionHandler(index)}
-         name = {person.name} 
-         age = {person.age}>
-         </Persion>
+       {this.state.Persions.map((person, index) => {
+         return ( 
+           <Persion
+             click={() => this.deletePersionHandler(index)}
+             name={person.name}
+             age={person.age}
+             key={person.id}
+             changed={(event) => this.nameChangeHandler(event,person.id)}
+           />
+         );
        })}
      </div>
    );
