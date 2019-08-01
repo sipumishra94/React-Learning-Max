@@ -1,9 +1,9 @@
 import React from 'react';
-import './Persion.css';
+import Classes from './Persion.css';
 
 const Persion = props => {
   return (
-    <div className ='Persion'>
+    <div className ={Classes.Persion}>
       <p onClick = {props.click}>
         I am {props.name} of age {props.age}
       </p>

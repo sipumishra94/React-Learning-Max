@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./App.css";
+import Classes from "./App.css";
 import Persion from "./Persion/Persion";
 
 class App extends Component {
@@ -39,16 +39,9 @@ class App extends Component {
   };
 
   render() {
-    const style = {
-      backgroundColor: "green",
-      color: "white",
-      font: "inherit",
-      border: "1px solid blue",
-      padding: "8px",
-      cursor: "pointer"
-    };
-
     let persons = null;
+    let btnCLass = '';
+
     if (this.state.showPersons) {
       persons = (
           <div>
@@ -65,23 +58,23 @@ class App extends Component {
             })}
           </div>
       );
-      style.backgroundColor = "Red";
+      btnCLass = Classes.Red;
     }
     let classes = [];
 
     if (this.state.Persions.length <= 2) {
-      classes.push("red");
+      classes.push(Classes.red);
     }
 
     if (this.state.Persions.length <= 1) {
-      classes.push("bold");
+      classes.push(Classes.bold);
     }
 
     return (
-      <div className="App">
+      <div className={Classes.App}>
         <h1>Hi, I am a react app.</h1>
         <p className={classes.join(" ")}>This is really working.</p>
-        <button style={style} onClick={this.togglePersonHandler}>
+        <button className = {btnCLass} onClick={this.togglePersonHandler}>
           Toggle Persons
         </button>
         {persons}
