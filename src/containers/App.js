@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import Classes from "./App.css";
-import Persion from "./Persion/Persion";
+import Persions from "../components/Persons/Persons";
+import Cockpit from '../components/Cockpit/Cockpit'
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    console.log('[App.js] constructor');
+  }
+
   state = {
     Persions: [
       { id: "abc", name: "max", age: "28" },
@@ -12,6 +18,15 @@ class App extends Component {
     otherState: "Some other value",
     showPersons: false
   };
+
+  static getDerivedStateFromProps(props,state){
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
+
+  componentDidMount(){
+    console.log('[App.js] componentDidMount');
+  }
 
   nameChangeHandler = (event, id) => {
     const personIndex = this.state.Persions.findIndex(p => {
@@ -39,47 +54,30 @@ class App extends Component {
   };
 
   render() {
+    console.log('[App.js] render');
     let persons = null;
-    let btnCLass = '';
 
     if (this.state.showPersons) {
       persons = (
-          <div>
-            {this.state.Persions.map((person, index) => {
-              return (
-                <Persion
-                  click={() => this.deletePersionHandler(index)}
-                  name={person.name}
-                  age={person.age}
-                  key={person.id}
-                  changed={event => this.nameChangeHandler(event, person.id)}
-                />
-              );
-            })}
-          </div>
+        <div>
+          <Persions
+            persons={this.state.Persions}
+            clicked={this.deletePersionHandler}
+            changed={this.nameChangeHandler}
+          />
+        </div>
       );
-      btnCLass = Classes.Red;
     }
-    let classes = [];
-
-    if (this.state.Persions.length <= 2) {
-      classes.push(Classes.red);
-    }
-
-    if (this.state.Persions.length <= 1) {
-      classes.push(Classes.bold);
-    }
-
-    return (
-      <div className={Classes.App}>
-        <h1>Hi, I am a react app.</h1>
-        <p className={classes.join(" ")}>This is really working.</p>
-        <button className = {btnCLass} onClick={this.togglePersonHandler}>
-          Toggle Persons
-        </button>
-        {persons}
-      </div>
-    );
+   
+    return <div className={Classes.App}>
+      <Cockpit
+      title = {this.props.title}
+       showPersons = {this.state.showPersons}
+       Persions = {this.state.Persions}
+       clicked = {this.togglePersonHandler}
+      />
+    {persons}
+    </div>;
   }
 }
 
