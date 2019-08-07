@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import Classes from "./App.css";
 import Persions from "../components/Persons/Persons";
-import Cockpit from '../components/Cockpit/Cockpit'
+import Cockpit from "../components/Cockpit/Cockpit";
+import Aux from '../hoc/Auxiliary'
+import withClass from "../hoc/withClass";
 
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    console.log('[App.js] constructor');
+    console.log("[App.js] constructor");
   }
 
   state = {
@@ -16,16 +18,17 @@ class App extends Component {
       { id: "abcde", name: "Gobind", age: "30" }
     ],
     otherState: "Some other value",
-    showPersons: false
+    showPersons: false,
+    showCokpit: true
   };
 
-  static getDerivedStateFromProps(props,state){
-    console.log('[App.js] getDerivedStateFromProps', props);
+  static getDerivedStateFromProps(props, state) {
+    console.log("[App.js] getDerivedStateFromProps", props);
     return state;
   }
 
-  componentDidMount(){
-    console.log('[App.js] componentDidMount');
+  componentDidMount() {
+    console.log("[App.js] componentDidMount");
   }
 
   nameChangeHandler = (event, id) => {
@@ -54,7 +57,7 @@ class App extends Component {
   };
 
   render() {
-    console.log('[App.js] render');
+    console.log("[App.js] render");
     let persons = null;
 
     if (this.state.showPersons) {
@@ -68,17 +71,28 @@ class App extends Component {
         </div>
       );
     }
-   
-    return <div className={Classes.App}>
-      <Cockpit
-      title = {this.props.title}
-       showPersons = {this.state.showPersons}
-       Persions = {this.state.Persions}
-       clicked = {this.togglePersonHandler}
-      />
-    {persons}
-    </div>;
+
+    return (
+      <Aux classes={Classes.App}>
+        <button
+          onClick={() => {
+            this.setState({ showCokpit: !this.state.showCokpit });
+          }}
+        >
+          Remove Cockpit
+        </button>
+        {this.state.showCokpit ? (
+          <Cockpit
+            title={this.props.title}
+            showPersons={this.state.showPersons}
+            Persions={this.state.Persions}
+            clicked={this.togglePersonHandler}
+          />
+        ) : null}
+        {persons}
+      </Aux>
+    );
   }
 }
 
-export default App;
+export default withClass(App,Classes.App);
