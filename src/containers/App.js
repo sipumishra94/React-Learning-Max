@@ -4,6 +4,7 @@ import Persions from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
 import Aux from '../hoc/Auxiliary'
 import withClass from "../hoc/withClass";
+import AuthContext from '../context/auth-context';
 
 class App extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class App extends Component {
     ],
     otherState: "Some other value",
     showPersons: false,
-    showCokpit: true
+    showCokpit: true,
+    authenticated: false
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -56,6 +58,10 @@ class App extends Component {
     this.setState({ showPersons: !doesShow });
   };
 
+  loginHandler = ()=>{
+    this.setState({authenticated: true});
+  };
+
   render() {
     console.log("[App.js] render");
     let persons = null;
@@ -67,6 +73,7 @@ class App extends Component {
             persons={this.state.Persions}
             clicked={this.deletePersionHandler}
             changed={this.nameChangeHandler}
+            isAuthenticated = {this.state.authenticated}
           />
         </div>
       );
@@ -87,6 +94,7 @@ class App extends Component {
             showPersons={this.state.showPersons}
             Persions={this.state.Persions}
             clicked={this.togglePersonHandler}
+            login = {this.loginHandler}
           />
         ) : null}
         {persons}
