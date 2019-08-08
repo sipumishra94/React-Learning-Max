@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import Classes from "./App.css";
 import Persions from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
-import Aux from '../hoc/Auxiliary'
+import Aux from "../hoc/Auxiliary";
 import withClass from "../hoc/withClass";
-import AuthContext from '../context/auth-context';
+import authContext from "../context/auth-context";
 
 class App extends Component {
   constructor(props) {
@@ -58,8 +58,8 @@ class App extends Component {
     this.setState({ showPersons: !doesShow });
   };
 
-  loginHandler = ()=>{
-    this.setState({authenticated: true});
+  loginHandler = () => {
+    this.setState({ authenticated: true });
   };
 
   render() {
@@ -73,7 +73,6 @@ class App extends Component {
             persons={this.state.Persions}
             clicked={this.deletePersionHandler}
             changed={this.nameChangeHandler}
-            isAuthenticated = {this.state.authenticated}
           />
         </div>
       );
@@ -88,19 +87,24 @@ class App extends Component {
         >
           Remove Cockpit
         </button>
-        {this.state.showCokpit ? (
-          <Cockpit
-            title={this.props.title}
-            showPersons={this.state.showPersons}
-            Persions={this.state.Persions}
-            clicked={this.togglePersonHandler}
-            login = {this.loginHandler}
-          />
-        ) : null}
-        {persons}
+        <authContext.Provider 
+        value = {{
+          authenticated : this.state.authenticated,
+          login : this.loginHandler
+          }}>
+          {this.state.showCokpit ? (
+            <Cockpit
+              title={this.props.title}
+              showPersons={this.state.showPersons}
+              Persions={this.state.Persions}
+              clicked={this.togglePersonHandler}
+            />
+          ) : null}
+          {persons}
+        </authContext.Provider>
       </Aux>
     );
   }
 }
 
-export default withClass(App,Classes.App);
+export default withClass(App, Classes.App);

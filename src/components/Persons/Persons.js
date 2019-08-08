@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import Person from "./Persion/Persion";
 
 class Persons extends Component {
-  static getDerivedStateFromProps(props, state) {
-    console.log("[Persons.js] getDerivedStateFromProps");
-  }
-
+  
   shouldComponentUpdate(nextProps, nextState){
     console.log('[Persons.js] shouldComponentUpdate');
     return true;
@@ -35,7 +32,6 @@ class Persons extends Component {
           age={person.age}
           key={person.id}
           changed={event => this.props.changed(event, person.id)}
-          isAuth = {this.props.isAuthenticated}
         />
       );
     });

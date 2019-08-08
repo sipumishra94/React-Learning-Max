@@ -1,17 +1,19 @@
 import React, { Component } from "react";
 import Aux from "../../../hoc/Auxiliary";
-import withClass from '../../../hoc/withClass';
-import Classes from './Persion.css';
-import propTypes from 'prop-types';
+import withClass from "../../../hoc/withClass";
+import Classes from "./Persion.css";
+import propTypes from "prop-types";
+import AuthContext from "../../../context/auth-context";
 
 class Persion extends Component {
-  constructor(props)
-  {
+  constructor(props) {
     super(props);
     this.inputElementRef = React.createRef();
   }
 
-  componentDidMount(){
+  static contextType = AuthContext;
+
+  componentDidMount() {
     this.inputElementRef.current.focus();
   }
 
@@ -19,13 +21,18 @@ class Persion extends Component {
     console.log("[Person.js] rendering...");
     return (
       <Aux>
-        {this.props.isAuth? <p>Authenticated</p> : <p>Please log in</p>}
+        {this.context.authenticated ? (
+          <p>Authenticated</p>
+        ) : (
+          <p>Please log in</p>
+        )}
+
         <p onClick={this.props.click}>
           I am {this.props.name} of age {this.props.age}
         </p>
         <p>{this.props.children}</p>
         <input
-        ref = {this.inputElementRef}
+          ref={this.inputElementRef}
           type="text"
           onChange={this.props.changed}
           value={this.props.name}
@@ -40,6 +47,6 @@ Persion.protoTypes = {
   name: propTypes.string,
   age: propTypes.number,
   changed: propTypes.func
-}
+};
 
-export default withClass(Persion,Classes.Persion);
+export default withClass(Persion, Classes.Persion);

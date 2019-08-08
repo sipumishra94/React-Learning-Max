@@ -1,8 +1,11 @@
-import React, {useEffect , useRef} from "react";
-import Classes from './Cockpit.css';
+import React, { useEffect, useRef, useContext } from "react";
+import Classes from "./Cockpit.css";
+import AuthContext from "../../context/auth-context";
 
 const Cokpit = props => {
   const toggleBtnRef = useRef(null);
+  const authContext = useContext(AuthContext);
+
   useEffect(() => {
     // console.log('[Cockpit.js] useEffect.')
     // setTimeout(()=>{
@@ -10,7 +13,7 @@ const Cokpit = props => {
     // },1000);
     toggleBtnRef.current.click();
     return () => {
-      console.log('[Cockpit.js] cleanup work in progress.');
+      console.log("[Cockpit.js] cleanup work in progress.");
     };
   }, []);
 
@@ -32,10 +35,10 @@ const Cokpit = props => {
     <div className={Classes.Cockpit}>
       <h1>{props.title}</h1>
       <p className={classes.join(" ")}>This is really working.</p>
-      <button ref = {toggleBtnRef} className={btnCLass} onClick={props.clicked}>
+      <button ref={toggleBtnRef} className={btnCLass} onClick={props.clicked}>
         Toggle Persons
       </button>
-      <button onClick = {props.login}>Log in</button>
+      <button onClick={authContext.login}>Log in</button>
     </div>
   );
 };
